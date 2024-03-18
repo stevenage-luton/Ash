@@ -8,5 +8,6 @@ WASD to move, mouse to look. RMB to bring up your Camera, left click to take a p
 
 ## Credits
 
-https://github.com/MenacingMecha/godot-psx-style-demo
+https://github.com/MenacingMecha/godot-psx-style-demo -for the screen overlays.
 
+https://github.com/marmitoTH/godot-psx-shaders -I think the spider uses these for affine warping and vertex jitter.
