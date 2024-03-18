@@ -1,0 +1,237 @@
+[gd_scene load_steps=25 format=3 uid="uid://cs8d3xn2towo"]
+
+[ext_resource type="Material" uid="uid://b6irksunrvdek" path="res://post_process/blur-post-process_mat.tres" id="1_3emcg"]
+[ext_resource type="Script" path="res://post_process/main.gd" id="1_cyffo"]
+[ext_resource type="Material" uid="uid://bni0eo5gi5ho4" path="res://post_process/lcd-overlay_mat.tres" id="2_0v7s0"]
+[ext_resource type="Shader" path="res://shaders/pp_band-dither.gdshader" id="3_rkbcs"]
+[ext_resource type="Texture2D" uid="uid://b0ub3tqjyw46f" path="res://shaders/psxdither.png" id="4_05ih0"]
+[ext_resource type="PackedScene" uid="uid://c1xno4bm2dlyj" path="res://world/world.tscn" id="5_i4o5h"]
+[ext_resource type="Script" path="res://post_process/Player.cs" id="7_4mi3m"]
+[ext_resource type="PackedScene" uid="uid://b2cr2atylvvsd" path="res://graveyard_full.tscn" id="7_fs6sr"]
+[ext_resource type="Script" path="res://post_process/CameraScript.gd" id="7_mwed7"]
+[ext_resource type="Texture2D" uid="uid://2og4w8ryycm6" path="res://Models/Shutter.png" id="7_qbek2"]
+[ext_resource type="AudioStream" uid="uid://cu5xfwlkthjia" path="res://Sounds/CameraPickupNormalized.ogg" id="9_teapd"]
+[ext_resource type="AudioStream" uid="uid://dx0tn73lq3iue" path="res://Sounds/CameraShutterNormalize.ogg" id="10_5cusm"]
+[ext_resource type="AudioStream" uid="uid://bv2rbcjhyfwvx" path="res://Sounds/Empty Ambience.ogg" id="11_4lywg"]
+[ext_resource type="Texture2D" uid="uid://der58hyafa0jm" path="res://Sprites/SnowflakeLowPoly.png" id="11_taquv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m5nvn"]
+shader = ExtResource("3_rkbcs")
+shader_parameter/col_depth = 64.0
+shader_parameter/dither_banding = false
+shader_parameter/dither_tex = ExtResource("4_05ih0")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2x8kk"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wkn2r"]
+points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607, 0.498884, 0.169713, 0.559144, 0.464172, 0.231051, -0.803591, 0.320455, 0.40741, 0.651043, -0.243523, -0.482789, 0.594843, 0.0822132, -0.362868, -0.682312, 0.289697, 0.469044, -0.654529, -0.0662713, -0.127444, 0.842701, -0.338103, -0.393435, -0.683942, -0.244717, 0.438255, 0.623309, 0.200849, 0.0841477, 0.977454, 0.114795, -0.0682023, -0.976458, -0.12927, 0.20055, -0.563129, -0.451454, -0.185527, 0.595453, -0.453475, -0.273363, 0.592268, 0.407754, -0.00693649, -0.476823, 0.49966, 0.375821, -0.588614, 0.316955, 0.111579, 0.563059, -0.481177, -0.41725, 0.527866, -0.270497, -0.484546, -0.596972, -0.0665097, -0.279747, 0.908561, 0.0533361, -0.250197, -0.880712, 0.205319, 0.263647, -0.902771, -0.127394, 0.293368, 0.871526, -0.157196, 0.373412, -0.526319, -0.328246, 0.499663, 0.476641, -0.00688856, 0.0531056, 0.875001, 0.324703, -0.154543, -0.590854, 0.465879, -0.0972799, -0.782358, -0.398188, -0.387649, -0.498171, 0.31565, -0.30068, -0.587995, -0.388901)
+
+[sub_resource type="Animation" id="Animation_4sooc"]
+resource_name = "CameraClose"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraOverlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_sg7n4"]
+resource_name = "CameraOverlay"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraOverlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vfsh8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraOverlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mk1ng"]
+_data = {
+"CameraClose": SubResource("Animation_4sooc"),
+"CameraOverlay": SubResource("Animation_sg7n4"),
+"RESET": SubResource("Animation_vfsh8")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_am88u"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+albedo_texture = ExtResource("11_taquv")
+metallic_specular = 0.0
+billboard_mode = 2
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xh14c"]
+emission_shape = 3
+emission_box_extents = Vector3(10, 10, 5)
+direction = Vector3(0, 0, 0)
+spread = 50.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+angular_velocity_min = 1.0
+angular_velocity_max = 2.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_jtjte"]
+size = Vector2(0.1, 0.1)
+
+[node name="Scene" type="Node"]
+script = ExtResource("1_cyffo")
+
+[node name="PSXLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="BlurPostProcess" type="SubViewportContainer" parent="PSXLayer"]
+material = ExtResource("1_3emcg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+metadata/_edit_use_anchors_ = true
+
+[node name="Viewport" type="SubViewport" parent="PSXLayer/BlurPostProcess"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+size = Vector2i(640, 480)
+render_target_update_mode = 4
+
+[node name="LCDOverlay" type="SubViewportContainer" parent="PSXLayer/BlurPostProcess/Viewport"]
+material = ExtResource("2_0v7s0")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+size = Vector2i(640, 480)
+render_target_update_mode = 4
+
+[node name="DitherBanding" type="SubViewportContainer" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport"]
+material = SubResource("ShaderMaterial_m5nvn")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+stretch = true
+stretch_shrink = 3
+
+[node name="Viewport" type="SubViewport" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+size = Vector2i(213, 160)
+render_target_update_mode = 4
+
+[node name="World" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport" instance=ExtResource("5_i4o5h")]
+
+[node name="Player" type="CharacterBody3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World" groups=["Player"]]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -35.9227, 9.57151, 8.81084)
+script = ExtResource("7_4mi3m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player"]
+mesh = SubResource("CapsuleMesh_2x8kk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player"]
+shape = SubResource("ConvexPolygonShape3D_wkn2r")
+
+[node name="Head" type="Node3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475528, 0)
+
+[node name="PlayerCamera" type="Camera3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.177632, 0)
+fov = 95.0
+script = ExtResource("7_mwed7")
+
+[node name="CameraOverlay" type="TextureRect" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player/Head/PlayerCamera"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource("7_qbek2")
+expand_mode = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player/Head/PlayerCamera"]
+libraries = {
+"": SubResource("AnimationLibrary_mk1ng")
+}
+
+[node name="CameraSound" type="AudioStreamPlayer3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player/Head/PlayerCamera"]
+stream = ExtResource("9_teapd")
+max_db = 0.0
+
+[node name="ShutterSound" type="AudioStreamPlayer3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player/Head/PlayerCamera"]
+stream = ExtResource("10_5cusm")
+max_db = 0.0
+
+[node name="Ambience" type="AudioStreamPlayer3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player/Head/PlayerCamera"]
+stream = ExtResource("11_4lywg")
+max_db = 0.0
+autoplay = true
+
+[node name="SpiderSpawn" type="Node3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player/Head/PlayerCamera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.76837e-06, -0.65316, 17.3688)
+
+[node name="Snow" type="GPUParticles3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.65316, 0)
+material_override = SubResource("StandardMaterial3D_am88u")
+amount = 400
+lifetime = 3.0
+visibility_aabb = AABB(-8.38227, -4, -5.9242, 16.7645, 8, 11.8484)
+trail_lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_xh14c")
+draw_pass_1 = SubResource("QuadMesh_jtjte")
+
+[node name="FootstepSounds" type="AudioStreamPlayer3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player"]
+max_db = -15.0
+
+[node name="FootstepTimer" type="Timer" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player"]
+one_shot = true
+
+[node name="GraveyardFull" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World" instance=ExtResource("7_fs6sr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.717, 0, 1.98459)
+
+[node name="MonsterSpawn" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+autostart = true

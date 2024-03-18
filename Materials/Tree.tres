@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cl0cgspg57yl8"]
+
+[ext_resource type="Shader" path="res://Materials/Spider.gdshader" id="1_5al3a"]
+[ext_resource type="Texture2D" uid="uid://cb58duam4diem" path="res://Materials/Spider.png" id="2_gavbf"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5al3a")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/specular_intensity = null
+shader_parameter/resolution = 256.0
+shader_parameter/cull_distance = 1000.0
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/albedoTex = ExtResource("2_gavbf")

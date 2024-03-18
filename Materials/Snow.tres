@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cijq3d2rhoe6w"]
+
+[ext_resource type="Shader" path="res://Materials/Spider.gdshader" id="1_rhqlh"]
+[ext_resource type="Texture2D" uid="uid://cvsw3vp0ih5ud" path="res://Models/Graveyard_Snow.png" id="2_of8xo"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_rhqlh")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/specular_intensity = null
+shader_parameter/resolution = 256.0
+shader_parameter/cull_distance = 1000.0
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/albedoTex = ExtResource("2_of8xo")

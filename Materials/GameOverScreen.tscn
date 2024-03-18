@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2jqrt4xq4h50"]
+
+[ext_resource type="Script" path="res://Materials/GameOverScreen.gd" id="1_5dixq"]
+[ext_resource type="FontFile" uid="uid://cx0sqe6vx31v8" path="res://Fonts/Gill Sans.otf" id="1_11ref"]
+[ext_resource type="AudioStream" uid="uid://dr1vpticefcq8" path="res://Sounds/MonsterAttack.ogg" id="3_ijp4f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ppbuw"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="GameOverCanvas" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_5dixq")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ppbuw")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="GameOverMessage" type="Label" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.752941, 0.752941, 0.752941, 1)
+theme_override_fonts/font = ExtResource("1_11ref")
+theme_override_font_sizes/font_size = 72
+text = "End."
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 235
+
+[node name="Attack" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_ijp4f")
+volume_db = 20.0
+pitch_scale = 0.64
+autoplay = true

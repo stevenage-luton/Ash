@@ -1,0 +1,223 @@
+[gd_scene load_steps=14 format=3 uid="uid://j13g3wjh1nvx"]
+
+[ext_resource type="PackedScene" uid="uid://bnaw6ohyrn7vj" path="res://Models/Spider2.gltf" id="1_67gqq"]
+[ext_resource type="Script" path="res://Models/spider_monster.gd" id="2_yi4f3"]
+[ext_resource type="Script" path="res://Models/start_ik.gd" id="3_b1f5i"]
+[ext_resource type="Material" uid="uid://4b8kj4jc8q2o" path="res://Materials/Spider.tres" id="3_xge0q"]
+[ext_resource type="Script" path="res://Models/ikTarget.gd" id="4_h1uwq"]
+[ext_resource type="Script" path="res://Models/StepTargetContainer.gd" id="5_sing2"]
+[ext_resource type="Script" path="res://Models/stepTargetRay.gd" id="6_iwnlh"]
+[ext_resource type="AudioStream" uid="uid://cfsb1up3npoeo" path="res://Sounds/MonsterLoop.ogg" id="8_4jkig"]
+[ext_resource type="AudioStream" uid="uid://dhcdwdggv1tst" path="res://Sounds/MonsterScream.ogg" id="9_u8atx"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wn7af"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wnkh2"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_gw6mn"]
+states/Walk/node = SubResource("AnimationNodeAnimation_wn7af")
+states/Walk/position = Vector2(364, 81)
+transitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition_wnkh2")]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6oi7h"]
+size = Vector3(4.88139, 3.35518, 5.98935)
+
+[node name="Spider2" instance=ExtResource("1_67gqq")]
+script = ExtResource("2_yi4f3")
+movespeed = 4.0
+ground_offset = 0.2
+
+[node name="Skeleton3D" parent="SpiderMonster" index="0"]
+bones/1/rotation = Quaternion(0.0039945, 0.249887, 0.000914415, 0.968266)
+bones/2/rotation = Quaternion(0.144208, -0.269804, 0.0504081, 0.95072)
+bones/3/rotation = Quaternion(-0.369899, 0.0287387, -0.00366976, 0.92862)
+
+[node name="SpiderModel" parent="SpiderMonster/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("3_xge0q")
+
+[node name="FrontLeftLegIK" type="SkeletonIK3D" parent="SpiderMonster/Skeleton3D" index="1"]
+process_priority = 1
+root_bone = &"FrontLegForearm1.l"
+tip_bone = &"FrontLegIK.l"
+use_magnet = true
+magnet = Vector3(0, 10, 0)
+target_node = NodePath("../../FrontLeftIKTarget")
+script = ExtResource("3_b1f5i")
+
+[node name="MidLeftLegIK" type="SkeletonIK3D" parent="SpiderMonster/Skeleton3D" index="2"]
+process_priority = 1
+root_bone = &"MiddleLegThigh1.l"
+tip_bone = &"MiddleLegIK.l"
+use_magnet = true
+magnet = Vector3(0, 10, 0)
+target_node = NodePath("../../MidLeftIKTarget")
+script = ExtResource("3_b1f5i")
+
+[node name="RearLeftLegIK" type="SkeletonIK3D" parent="SpiderMonster/Skeleton3D" index="3"]
+process_priority = 1
+root_bone = &"BackLegThigh1.l"
+tip_bone = &"BackLegIK.l"
+use_magnet = true
+magnet = Vector3(0, 10, 0)
+target_node = NodePath("../../RearLeftIKTarget")
+script = ExtResource("3_b1f5i")
+
+[node name="FrontRightLegIK" type="SkeletonIK3D" parent="SpiderMonster/Skeleton3D" index="4"]
+process_priority = 1
+root_bone = &"FrontLegForearm1.r"
+tip_bone = &"FrontLegIK.r"
+use_magnet = true
+magnet = Vector3(0, 10, 0)
+target_node = NodePath("../../FrontRightIKTarget")
+script = ExtResource("3_b1f5i")
+
+[node name="MidRightLegIK" type="SkeletonIK3D" parent="SpiderMonster/Skeleton3D" index="5"]
+process_priority = 1
+root_bone = &"MiddleLegThigh1.r"
+tip_bone = &"MiddleLegIK.r"
+use_magnet = true
+magnet = Vector3(0, 10, 0)
+target_node = NodePath("../../MidRightIKTarget")
+script = ExtResource("3_b1f5i")
+
+[node name="RearRightLegIK" type="SkeletonIK3D" parent="SpiderMonster/Skeleton3D" index="6"]
+process_priority = 1
+root_bone = &"BackLegThigh1.r"
+tip_bone = &"BackLegIK.r"
+use_magnet = true
+magnet = Vector3(0, 10, 0)
+target_node = NodePath("../../RearRightIKTarget")
+script = ExtResource("3_b1f5i")
+
+[node name="FrontLeftIKTarget" type="Marker3D" parent="SpiderMonster" index="1" node_paths=PackedStringArray("step_target", "adjacent_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.89658, 0, 3.42862)
+top_level = true
+script = ExtResource("4_h1uwq")
+step_target = NodePath("../StepTargetContainer/FrontLeftRay/FrontLeftStepTarget")
+step_distance = 4.0
+adjacent_target = NodePath("../FrontRightIKTarget")
+
+[node name="MidLeftIKTarget" type="Marker3D" parent="SpiderMonster" index="2" node_paths=PackedStringArray("step_target", "adjacent_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.36986, 0, -0.00550854)
+top_level = true
+script = ExtResource("4_h1uwq")
+step_target = NodePath("../StepTargetContainer/MidLeftRay/MidLeftStep")
+step_distance = 4.0
+adjacent_target = NodePath("../MidRightIKTarget")
+
+[node name="RearLeftIKTarget" type="Marker3D" parent="SpiderMonster" index="3" node_paths=PackedStringArray("step_target", "adjacent_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.98008, 0, -2.56818)
+top_level = true
+script = ExtResource("4_h1uwq")
+step_target = NodePath("../StepTargetContainer/RearLeftRay/RearLeftStepTarget")
+step_distance = 4.0
+adjacent_target = NodePath("../RearRightIKTarget")
+
+[node name="FrontRightIKTarget" type="Marker3D" parent="SpiderMonster" index="4" node_paths=PackedStringArray("step_target", "adjacent_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.897, 0, 3.429)
+top_level = true
+script = ExtResource("4_h1uwq")
+step_target = NodePath("../StepTargetContainer/FrontRightRay/FrontRightStepTarget")
+step_distance = 4.0
+adjacent_target = NodePath("../FrontLeftIKTarget")
+
+[node name="MidRightIKTarget" type="Marker3D" parent="SpiderMonster" index="5" node_paths=PackedStringArray("step_target", "adjacent_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.37, 0, -0.006)
+top_level = true
+script = ExtResource("4_h1uwq")
+step_target = NodePath("../StepTargetContainer/MidRightRay/MidRightStepTarget")
+step_distance = 4.0
+adjacent_target = NodePath("../MidLeftIKTarget")
+
+[node name="RearRightIKTarget" type="Marker3D" parent="SpiderMonster" index="6" node_paths=PackedStringArray("step_target", "adjacent_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.98, 0, -2.568)
+top_level = true
+script = ExtResource("4_h1uwq")
+step_target = NodePath("../StepTargetContainer/RearRightRay/RearRightStepTarget")
+step_distance = 4.0
+adjacent_target = NodePath("../RearLeftIKTarget")
+
+[node name="StepTargetContainer" type="Node3D" parent="SpiderMonster" index="7"]
+script = ExtResource("5_sing2")
+offset = 10.0
+
+[node name="FrontLeftRay" type="RayCast3D" parent="SpiderMonster/StepTargetContainer" index="0" node_paths=PackedStringArray("step_target")]
+transform = Transform3D(0.99863, -0.052336, 1.94967e-10, 0.05095, 0.972185, 0.228606, -0.0119643, -0.228292, 0.97352, 1.68267, 4.10598, 2.5056)
+target_position = Vector3(0, -10, 0)
+script = ExtResource("6_iwnlh")
+step_target = NodePath("FrontLeftStepTarget")
+
+[node name="FrontLeftStepTarget" type="Marker3D" parent="SpiderMonster/StepTargetContainer/FrontLeftRay" index="0"]
+transform = Transform3D(0.99863, 0.0522642, -0.00273905, -0.052336, 0.997261, -0.0522642, 3.04345e-10, 0.052336, 0.99863, -0.00605726, -4.2029, 0.000229359)
+
+[node name="MidLeftRay" type="RayCast3D" parent="SpiderMonster/StepTargetContainer" index="1" node_paths=PackedStringArray("step_target")]
+transform = Transform3D(0.99863, -0.052336, 0, 0.0515064, 0.982801, 0.177342, -0.00928139, -0.177099, 0.984149, 3.16252, 3.53596, -0.65767)
+target_position = Vector3(0, -10, 0)
+script = ExtResource("6_iwnlh")
+step_target = NodePath("MidLeftStep")
+
+[node name="MidLeftStep" type="Marker3D" parent="SpiderMonster/StepTargetContainer/MidLeftRay" index="0"]
+transform = Transform3D(0.998629, 0.052336, 9.31323e-10, -0.052336, 0.998629, 0, 1.68758e-10, 1.49012e-08, 1, -0.0123203, -4.19679, -2.98023e-08)
+
+[node name="RearLeftRay" type="RayCast3D" parent="SpiderMonster/StepTargetContainer" index="2" node_paths=PackedStringArray("step_target")]
+transform = Transform3D(0.99863, -0.052336, -1.94967e-10, 0.0519215, 0.990722, 0.125593, -0.00657302, -0.125421, 0.992082, 2.74371, 3.12212, -2.95425)
+target_position = Vector3(0, -10, 0)
+script = ExtResource("6_iwnlh")
+step_target = NodePath("RearLeftStepTarget")
+
+[node name="RearLeftStepTarget" type="Marker3D" parent="SpiderMonster/StepTargetContainer/RearLeftRay" index="0"]
+transform = Transform3D(0.998629, 0.0522643, 0.00273905, -0.0523359, 0.997261, 0.0522643, -8.08355e-10, -0.0523359, 0.998629, 0.0163431, -4.20455, -0.00940585)
+
+[node name="FrontRightRay" type="RayCast3D" parent="SpiderMonster/StepTargetContainer" index="3" node_paths=PackedStringArray("step_target")]
+transform = Transform3D(0.99863, 0.052336, -1.94967e-10, -0.05095, 0.972185, 0.228606, 0.0119643, -0.228292, 0.97352, -1.683, 4.10633, 2.50583)
+target_position = Vector3(0, -10, 0)
+script = ExtResource("6_iwnlh")
+step_target = NodePath("FrontRightStepTarget")
+
+[node name="FrontRightStepTarget" type="Marker3D" parent="SpiderMonster/StepTargetContainer/FrontRightRay" index="0"]
+transform = Transform3D(0.998629, -0.0522643, 0.00273905, 0.0523359, 0.997261, -0.0522643, -1.71465e-09, 0.0523359, 0.998629, 0.00598776, -4.20322, 0.000306368)
+
+[node name="MidRightRay" type="RayCast3D" parent="SpiderMonster/StepTargetContainer" index="4" node_paths=PackedStringArray("step_target")]
+transform = Transform3D(0.99863, 0.052336, 0, -0.0515064, 0.982801, 0.177342, 0.00928139, -0.177099, 0.984149, -3.163, 3.53618, -0.658209)
+target_position = Vector3(0, -10, 0)
+script = ExtResource("6_iwnlh")
+step_target = NodePath("MidRightStepTarget")
+
+[node name="MidRightStepTarget" type="Marker3D" parent="SpiderMonster/StepTargetContainer/MidRightRay" index="0"]
+transform = Transform3D(0.998629, -0.052336, -9.31323e-10, 0.052336, 0.998629, 0, -1.68758e-10, 1.49012e-08, 1, 0.0126762, -4.19709, -3.72529e-08)
+
+[node name="RearRightRay" type="RayCast3D" parent="SpiderMonster/StepTargetContainer" index="5" node_paths=PackedStringArray("step_target")]
+transform = Transform3D(0.99863, 0.052336, 1.94967e-10, -0.0519215, 0.990722, 0.125593, 0.00657302, -0.125421, 0.992082, -2.744, 3.12244, -2.95423)
+target_position = Vector3(0, -10, 0)
+script = ExtResource("6_iwnlh")
+step_target = NodePath("RearRightStepTarget")
+
+[node name="RearRightStepTarget" type="Marker3D" parent="SpiderMonster/StepTargetContainer/RearRightRay" index="0"]
+transform = Transform3D(0.998629, -0.0522643, -0.00273905, 0.0523359, 0.997261, 0.0522643, 8.08355e-10, -0.0523359, 0.998629, -0.0159578, -4.20484, -0.00929427)
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
+tree_root = SubResource("AnimationNodeStateMachine_gw6mn")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+
+[node name="MonsterLoop" type="AudioStreamPlayer3D" parent="." index="3"]
+stream = ExtResource("8_4jkig")
+volume_db = 5.0
+autoplay = true
+
+[node name="MonsterScream" type="AudioStreamPlayer3D" parent="." index="4"]
+stream = ExtResource("9_u8atx")
+volume_db = 10.0
+max_db = 5.0
+pitch_scale = 0.8
+autoplay = true
+
+[node name="KillBox" type="Area3D" parent="." index="5"]
+
+[node name="KillShape" type="CollisionShape3D" parent="KillBox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.42806, 0)
+shape = SubResource("BoxShape3D_6oi7h")
+
+[connection signal="body_entered" from="KillBox" to="." method="_on_kill_box_body_entered"]
