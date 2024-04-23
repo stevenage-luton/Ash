@@ -5,11 +5,14 @@ const spiderMonster = preload("res://Models/spider_2.tscn")
 
 
 @onready var spawnTimer = $MonsterSpawn
+@onready var leadInSound = $PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player/leadInSound
+@onready var leadInTimer = $MonsterLeadIn
 @onready var spawnLocation = $PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player/Head/PlayerCamera/SpiderSpawn
 
 func _ready():
 	#spiderMonster.caughtPlayer.connect(_GameOver)
 	spawnTimer.timeout.connect(_SpawnSpider)
+	leadInTimer.timeout.connect(_PlaySpiderSound)
 
 func _GameOver():
 	var gameOver = gameOverScreen.instantiate()
@@ -22,3 +25,6 @@ func _SpawnSpider():
 	spider.caughtPlayer.connect(_GameOver)
 	spider.movespeed = 4.5
 	spider.global_position = spawnLocation.global_position
+
+func _PlaySpiderSound():
+	leadInSound.play();

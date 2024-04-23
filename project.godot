@@ -15,7 +15,7 @@ config/description="It's not snow."
 run/main_scene="res://post_process/pp_stack.tscn"
 config/features=PackedStringArray("4.1", "C#")
 run/max_fps=24
-boot_splash/bg_color=Color(0.796078, 0.796078, 0.796078, 1)
+boot_splash/bg_color=Color(0.8, 0.768627, 0.94902, 1)
 boot_splash/show_image=false
 config/icon="res://readme-assets/GameScreenShot.png"
 
@@ -24,7 +24,6 @@ config/icon="res://readme-assets/GameScreenShot.png"
 window/size/viewport_width=640
 window/size/viewport_height=480
 window/size/mode=3
-window/size/resizable=false
 window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
 window/size/width=960
@@ -32,7 +31,7 @@ window/size/height=720
 
 [dotnet]
 
-project/assembly_name="Godot PSX Tutorial"
+project/assembly_name="AshenSkies"
 
 [input]
 
@@ -71,6 +70,11 @@ Exit={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
+
+[physics]
+
+common/bg_color=Color(0.796078, 0.796078, 0.796078, 1)
+common/show_image=false
 
 [rendering]
 

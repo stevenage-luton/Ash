@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cs8d3xn2towo"]
+[gd_scene load_steps=27 format=3 uid="uid://cs8d3xn2towo"]
 
 [ext_resource type="Material" uid="uid://b6irksunrvdek" path="res://post_process/blur-post-process_mat.tres" id="1_3emcg"]
 [ext_resource type="Script" path="res://post_process/main.gd" id="1_cyffo"]
@@ -9,11 +9,12 @@
 [ext_resource type="Script" path="res://post_process/Player.cs" id="7_4mi3m"]
 [ext_resource type="PackedScene" uid="uid://b2cr2atylvvsd" path="res://graveyard_full.tscn" id="7_fs6sr"]
 [ext_resource type="Script" path="res://post_process/CameraScript.gd" id="7_mwed7"]
-[ext_resource type="Texture2D" uid="uid://2og4w8ryycm6" path="res://Models/Shutter.png" id="7_qbek2"]
+[ext_resource type="Texture2D" uid="uid://ljn8tjravt2o" path="res://Models/Shutter.png" id="7_qbek2"]
 [ext_resource type="AudioStream" uid="uid://cu5xfwlkthjia" path="res://Sounds/CameraPickupNormalized.ogg" id="9_teapd"]
 [ext_resource type="AudioStream" uid="uid://dx0tn73lq3iue" path="res://Sounds/CameraShutterNormalize.ogg" id="10_5cusm"]
 [ext_resource type="AudioStream" uid="uid://bv2rbcjhyfwvx" path="res://Sounds/Empty Ambience.ogg" id="11_4lywg"]
 [ext_resource type="Texture2D" uid="uid://der58hyafa0jm" path="res://Sprites/SnowflakeLowPoly.png" id="11_taquv"]
+[ext_resource type="AudioStream" uid="uid://breqx33mjb3jh" path="res://Sounds/MonsterLeadIn.ogg" id="14_e73vi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m5nvn"]
 shader = ExtResource("3_rkbcs")
@@ -102,6 +103,9 @@ angular_velocity_max = 2.0
 [sub_resource type="QuadMesh" id="QuadMesh_jtjte"]
 size = Vector2(0.1, 0.1)
 
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_v11qj"]
+length = 0.5
+
 [node name="Scene" type="Node"]
 script = ExtResource("1_cyffo")
 
@@ -162,6 +166,7 @@ render_target_update_mode = 4
 
 [node name="Player" type="CharacterBody3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World" groups=["Player"]]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -35.9227, 9.57151, 8.81084)
+floor_constant_speed = true
 script = ExtResource("7_4mi3m")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player"]
@@ -228,10 +233,23 @@ max_db = -15.0
 [node name="FootstepTimer" type="Timer" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player"]
 one_shot = true
 
+[node name="GroundTest" type="CollisionShape3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player"]
+transform = Transform3D(1, 4.37114e-08, -4.37114e-08, -4.37114e-08, -4.37114e-08, -1, -4.37114e-08, 1, -4.37114e-08, 0, -0.686161, 0)
+shape = SubResource("SeparationRayShape3D_v11qj")
+
+[node name="leadInSound" type="AudioStreamPlayer3D" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World/Player"]
+stream = ExtResource("14_e73vi")
+volume_db = 5.0
+
 [node name="GraveyardFull" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport/World" instance=ExtResource("7_fs6sr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.717, 0, 1.98459)
 
 [node name="MonsterSpawn" type="Timer" parent="."]
-wait_time = 30.0
+wait_time = 60.0
+one_shot = true
+autostart = true
+
+[node name="MonsterLeadIn" type="Timer" parent="."]
+wait_time = 50.0
 one_shot = true
 autostart = true

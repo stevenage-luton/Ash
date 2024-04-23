@@ -30,4 +30,6 @@ func _input(event):
 	if Input.is_action_just_released("TakePicture"):
 		if	cameraToggle == true:
 			picAudio.play()
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 

@@ -13,6 +13,10 @@ public partial class Player : CharacterBody3D
 	bool FloorConstantSpeed = true;
 	public Node3D head;
 	public Camera3D cam;
+	
+	public Node3D groundCheck;
+
+	float initialSeperation;
 
 	private AudioStreamPlayer3D footstepSounds;
 	private AudioStream stepSample;
@@ -60,10 +64,18 @@ public partial class Player : CharacterBody3D
 	public override void _PhysicsProcess(double delta){
 		Vector2 inputDir = Input.GetVector("left","right","up","down");
 		Vector3 direction = (head.GlobalTransform.Basis * new Vector3(inputDir.X, 0 ,inputDir.Y)).Normalized();
+		float tempSpeed = speed;
+
+		if(inputDir.Y > 0){
+			tempSpeed = 2.0f;
+			stepInterval = 0.75f;
+		}else{
+			stepInterval = 0.6f;
+		}
 
 		if(direction != Vector3.Zero){
-			velocity.X = direction.X * speed;
-			velocity.Z = direction.Z * speed;
+			velocity.X = direction.X * tempSpeed;
+			velocity.Z = direction.Z * tempSpeed;
 		}else{
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, acceleration);
 			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, acceleration);
@@ -114,5 +126,4 @@ public partial class Player : CharacterBody3D
 		footstepSounds.Play();
 		previousStep = randFootstep;
 	}
-
 }

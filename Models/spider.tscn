@@ -22,9 +22,9 @@ transitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition
 script = ExtResource("2_201kj")
 
 [node name="Skeleton3D" parent="SpiderMonster" index="0"]
-bones/1/rotation = Quaternion(-0.00945957, 0.249876, -0.00255774, 0.968228)
-bones/2/rotation = Quaternion(0.243325, -0.46645, 0.13312, 0.839938)
-bones/3/rotation = Quaternion(-0.077419, 0.172703, -0.0862072, 0.978135)
+bones/1/rotation = Quaternion(-0.0105301, 0.249873, -0.00283402, 0.968217)
+bones/2/rotation = Quaternion(0.289442, -0.488632, 0.153543, 0.808633)
+bones/3/rotation = Quaternion(-0.152395, 0.195755, -0.0977342, 0.963797)
 
 [node name="FrontLeftLegIK" type="SkeletonIK3D" parent="SpiderMonster/Skeleton3D" index="1"]
 process_priority = 1

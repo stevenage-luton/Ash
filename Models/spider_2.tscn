@@ -30,9 +30,9 @@ movespeed = 4.0
 ground_offset = 0.2
 
 [node name="Skeleton3D" parent="SpiderMonster" index="0"]
-bones/1/rotation = Quaternion(0.0039945, 0.249887, 0.000914415, 0.968266)
-bones/2/rotation = Quaternion(0.144208, -0.269804, 0.0504081, 0.95072)
-bones/3/rotation = Quaternion(-0.369899, 0.0287387, -0.00366976, 0.92862)
+bones/1/rotation = Quaternion(0.0041532, 0.249887, 0.000955373, 0.968266)
+bones/2/rotation = Quaternion(0.150173, -0.308542, 0.0552151, 0.937657)
+bones/3/rotation = Quaternion(-0.362306, 0.0884059, -0.0106835, 0.927795)
 
 [node name="SpiderModel" parent="SpiderMonster/Skeleton3D" index="0"]
 surface_material_override/0 = ExtResource("3_xge0q")
